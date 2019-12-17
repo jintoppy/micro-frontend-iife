@@ -1,0 +1,54 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions", "explorer 11", "ios 9"]
+        },
+        "useBuiltIns": "usage",
+        "debug": false        
+      }
+    ],
+    "react",
+    "stage-0"
+  ],
+  "plugins": [
+    "syntax-dynamic-import",
+    "transform-decorators-legacy",
+    "transform-react-constant-elements",
+    "transform-react-inline-elements"
+  ],
+  "env": {
+    "production": {
+      "plugins": [
+        "transform-react-remove-prop-types",
+        [
+          "module-resolver",
+          {
+            "root": ["./src/"],
+            "alias": {
+              "utils": "./packages/utils/dist"
+            }
+          }
+        ]
+      ]
+    },
+    "development": {
+      "plugins": [
+        [
+          "module-resolver",
+          {
+            "root": ["./src/"],
+            "alias": {
+              "utils": "./packages/utils/src"
+            }
+          }
+        ]
+      ]
+    },
+    "test": {
+      "plugins": ["babel-plugin-dynamic-import-node"]
+    }
+  }
+}

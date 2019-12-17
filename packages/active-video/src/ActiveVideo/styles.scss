@@ -1,0 +1,319 @@
+@import 'styles/config';
+
+.active-video {
+  &__transcript-button-container {
+    width: 100%;
+    padding: 0;
+    text-align: right;
+  }
+
+  &__transcript-text {
+    margin: gcss-px-to-rem(15px) auto;
+  }
+
+  &__play-icon {
+    position: relative;
+
+    &:after {
+      @include gcss-screen-only('mobile') {
+        width: gcss-px-to-rem(40px);
+        height: gcss-px-to-rem(40px);
+      }
+
+      content: '';
+      display: block;
+      width: gcss-px-to-rem(58px);
+      height: gcss-px-to-rem(58px);
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  }
+
+  &__duration {
+    border-radius: 12px;
+    padding: gcss-px-to-rem(2px) gcss-px-to-rem(7px);
+    font-weight: bold;
+  }
+}
+
+.active-video-wrapper {
+  .layout-wrapper {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .standard {
+    position: relative;
+
+    .overlay-wrapper {
+      position: relative;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity .2s linear;
+
+      &.active {
+        opacity: 1;
+      }
+
+      a {
+        @include experimental-css-property(text-decoration, none);
+
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        z-index: 20;
+        left: 0;
+
+        .play-overlay {
+          @include experimental-css-property(align-items, center);
+          @include experimental-css-property(justify-content, center);
+
+          display: flex;
+          position: relative;
+          flex-direction: column;
+          align-content: center;
+          text-align: center;
+          height: 100%;
+
+          &.active:hover {
+            background: rgba(0, 0, 0, .55);
+          }
+
+          .video-title {
+            @include gcss-typography-utility-heading(5);
+
+            @include gcss-screen-only('mobile') {
+              @include gcss-typography-label(4);
+            }
+
+            position: absolute;
+            left: 0;
+            top: 0;
+            padding: gcss-px-to-rem(10px);
+          }
+
+          .video-title,
+          .duration {
+            @include gcss-screen-only('mobile') {
+              margin-bottom: gcss-px-to-rem(10px);
+            }
+
+            margin-bottom: gcss-px-to-rem(15px);
+          }
+
+          .icon {
+            @include gcss-typography-utility-heading(7);
+
+            @include gcss-screen-only('mobile') {
+              font-size: gcss-px-to-rem(40px);
+            }
+
+            font-size: gcss-px-to-rem(58px);
+            padding-bottom: gcss-px-to-rem(5px);
+          }
+
+          .duration {
+            @include gcss-typography-label(5);
+
+            @include gcss-screen-up('desktop') {
+              @include gcss-typography-label(3);
+            }
+
+            @include gcss-screen-up('tablet') {
+              @include gcss-typography-font-size('default');
+            }
+
+            @include gcss-screen-down('phablet') {
+              @include gcss-typography-font-size('tiny');
+            }
+          }
+        }
+      }
+    }
+
+    .media-wrapper {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      opacity: 0;
+      left: 0;
+      transition: opacity .2s linear;
+
+      &.active {
+        opacity: 1;
+        overflow: hidden;
+      }
+
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .active-video-disclosure {
+        position: absolute;
+        bottom: gcss-px-to-rem(38px);
+        left: gcss-px-to-rem(10px);
+
+        &.external-disclosure {
+          bottom: gcss-px-to-rem(49px);
+        }
+      }
+    }
+  }
+
+  .active-video-disclaimer {
+    @include gcss-typography-font-size('default');
+
+    position: absolute;
+    bottom: gcss-px-to-rem(38px);
+    left: gcss-px-to-rem(10px);
+    color: gcss-colors-background('primary', $theme: 'light');
+
+    &.external-disclaimer {
+      bottom: gcss-px-to-rem(44px);
+    }
+
+    // stylelint-disable
+    _:-ms-lang(x), _:-webkit-full-screen, & {
+      // Fix for HTML5 controls size being taller in Internet Explorer (Edge) >= 12 (>= IE12 / Edge).
+      // Prevents disclaimer text from overlapping the controls.
+      bottom: gcss-px-to-rem(66px);
+    }
+    // stylelint-enable
+
+    @at-root _:-ms-input-placeholder, :root & {
+      // Fix for HTML5 controls size being taller in Internet Explorer (Edge) >= 12 (>= IE12 / Edge).
+      // Prevents disclaimer text from overlapping the controls.
+      bottom: gcss-px-to-rem(66px);
+    }
+  }
+
+  .active-video-loader-container {
+    display: block;
+    margin-top: gcss-px-to-rem(17px);
+    margin-bottom: gcss-px-to-rem(17px);
+    z-index: 2;
+
+    > div {
+      display: inline-block;
+      width: gcss-px-to-rem(12px);
+      height: gcss-px-to-rem(12px);
+      border-radius: gcss-px-to-rem(12px);
+      border: gcss-px-to-rem(1px) solid rgba(255, 255, 255, .2);
+      background-color: gcss-colors-background('primary', $theme: 'light');
+      animation: dotloader ease-in 2s infinite;
+
+      + div {
+        margin-left: gcss-px-to-rem(10px);
+        animation-delay: .2s;
+
+        + div {
+          animation-delay: .4s;
+        }
+      }
+    }
+
+    @keyframes dotloader {
+      0%,
+      20% {
+        opacity: 0;
+      }
+
+      30%,
+      70% {
+        opacity: 1;
+      }
+
+      80%,
+      100% {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+.active-video,
+.active-video-wrapper {
+  max-width: gcss-px-to-rem(1450px);
+  margin: 0 auto;
+}
+
+@each $theme in $themes {
+  $gcss-theme-class: gcss-theme-#{$theme};
+  $component: active-video;
+
+  .#{$component}-wrapper.#{$gcss-theme-class} {
+    .#{$component}__transcript-button-container {
+      background-color: gcss-colors-background('primary', $theme: 'dark');
+    }
+
+    .#{$component}__transcript-button-container .#{$component}__transcript-button {
+      &,
+      &:after {
+        color: gcss-colors-text('body-primary', $theme: 'dark');
+      }
+    }
+  }
+
+  .active-video-wrapper .gcss-theme-#{$theme} {
+    .active-video {
+      &__play-icon:after,
+      &__duration {
+        background-color: adjust-color(gcss-colors-background('primary', $theme: $theme), $alpha: -.4);
+        color: gcss-colors-text('body-primary', $theme: $theme);
+      }
+    }
+
+    a {
+      background-color: transparent;
+
+      .play-overlay {
+        .video-title,
+        .duration,
+        .icon {
+          color: gcss-colors-text('body-primary', $theme: $theme);
+        }
+
+        .video-title {
+          color: gcss-colors-text('body-primary', $theme: $theme);
+          background-color: adjust-color(gcss-colors-background('primary', $theme: $theme), $alpha: -.4);
+        }
+      }
+    }
+  }
+
+  .active-video-wrapper[data-brand=uconnect] .gcss-theme-#{$theme} {
+    .active-video {
+      &__play-icon:after,
+      &__duration {
+        background-color: gcss-colors-background('primary', $theme: 'light');
+        color: gcss-colors-element('primary', $theme: 'dark');
+      }
+    }
+
+    a {
+      background-color: transparent;
+
+      .play-overlay {
+        .video-title,
+        .duration,
+        .icon {
+          color: gcss-colors-element('primary', $theme: 'dark');
+        }
+
+        .video-title {
+          color: gcss-colors-element('primary', $theme: 'dark');
+          background-color: gcss-colors-background('primary', $theme: 'light');
+        }
+      }
+    }
+  }
+}

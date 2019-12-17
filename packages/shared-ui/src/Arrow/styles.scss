@@ -1,0 +1,254 @@
+@import 'styles/config';
+
+.arrow-container {
+  @include gcss-screen-only('desktop') {
+    width: gcss-px-to-rem(75px);
+  }
+
+  height: 100%;
+  width: gcss-px-to-rem(45px);
+
+  a {
+    @include experimental-css-property(text-decoration, none);
+
+    display: flex;
+    height: 100%;
+  }
+
+  .icon {
+    @include experimental-css-property(align-items, center);
+    @include experimental-css-property(justify-content, center);
+
+    @include gcss-screen-only('desktop') {
+      width: 100%;
+    }
+
+    display: flex;
+    width: gcss-px-to-rem(14px);
+
+    &:before {
+      font-size: gcss-px-to-rem(50px);
+    }
+  }
+
+  &.arrow-up,
+  &.arrow-down {
+    width: 100%;
+    height: gcss-px-to-rem(15px);
+
+    .icon {
+      display: inline-block;
+
+      &:before {
+        font-size: gcss-px-to-rem(9px);
+      }
+    }
+  }
+
+  &.arrow-static {
+    a {
+      @include experimental-css-property(justify-content, flex-start);
+    }
+
+    &.disabled {
+      a {
+        cursor: default;
+      }
+    }
+  }
+
+  &.arrow-hover {
+    a {
+      @include experimental-css-property(justify-content, center);
+    }
+
+    .icon {
+      visibility: hidden;
+
+      &.is-visible {
+        visibility: visible;
+      }
+    }
+
+    &:hover {
+      .icon {
+        visibility: visible;
+      }
+    }
+  }
+
+  &.arrow-no-tab-focus {
+    a:focus {
+      outline: none;
+    }
+  }
+}
+
+// Mobile updates for arrow container within an ItemMatrix
+.item-matrix {
+  @include gcss-screen-down('tablet') {
+    .arrow-container {
+      width: gcss-px-to-rem(30px);
+
+      &.arrow-static {
+        .directional-arrow {
+          @include experimental-css-property(justify-content, center);
+        }
+      }
+
+      .icon {
+        width: auto;
+
+        &:before {
+          font-size: gcss-px-to-rem(28px);
+        }
+      }
+    }
+  }
+
+  @include gcss-screen-only('tablet') {
+    .arrow-container {
+      width: gcss-px-to-rem(50px);
+
+      .icon {
+        &:before {
+          font-size: gcss-px-to-rem(35px);
+        }
+      }
+    }
+  }
+}
+
+@each $theme in $themes {
+  .gcss-theme-#{$theme} {
+    &.arrow-container {
+      &.arrow-static {
+        &.disabled {
+          .icon {
+            color: gcss-colors-element('subdued', $theme: $theme);
+          }
+        }
+
+        .icon {
+          color: gcss-colors-element('primary', $theme: $theme);
+        }
+      }
+
+      &.arrow-hover {
+        .icon {
+          color: gcss-colors-text('body-primary', $theme: $theme);
+        }
+
+        a {
+          .icon {
+            color: gcss-colors-text('body-primary', $theme: $theme);
+          }
+
+          &.right {
+            &:hover {
+              // stylelint-disable declaration-colon-newline-after
+              background: linear-gradient(
+                to left,
+                rgba(0, 0, 0, .3) 0%,
+                rgba(0, 0, 0, .2) 12%,
+                rgba(0, 0, 0, .1) 30%,
+                rgba(0, 0, 0, 0) 47%
+              );
+              // stylelint-enable declaration-colon-newline-after
+            }
+          }
+
+          &.left {
+            &:hover {
+              // stylelint-disable declaration-colon-newline-after
+              background: linear-gradient(
+                to right,
+                rgba(0, 0, 0, .3) 0%,
+                rgba(0, 0, 0, .2) 12%,
+                rgba(0, 0, 0, .1) 30%,
+                rgba(0, 0, 0, 0) 47%
+              );
+              // stylelint-enable declaration-colon-newline-after
+            }
+          }
+
+          &:hover {
+            .icon {
+              color: gcss-colors-text('body-secondary', $theme: $theme);
+            }
+          }
+
+          &:active {
+            // stylelint-disable declaration-colon-newline-after
+            background: linear-gradient(
+              to right,
+              rgba(0, 0, 0, .3) 0%,
+              rgba(0, 0, 0, .2) 12%,
+              rgba(0, 0, 0, .1) 30%,
+              rgba(0, 0, 0, 0) 47%
+            );
+            // stylelint-enable declaration-colon-newline-after
+
+            .icon {
+              color: gcss-colors-element('tertiary', $theme: $theme);
+            }
+          }
+        }
+      }
+
+      &.arrow-up,
+      &.arrow-down {
+        a {
+          background: gcss-colors-element('primary', $theme);
+          color: gcss-colors-text('element-primary', $theme);
+
+          .icon {
+            color: gcss-colors-text('element-primary', $theme);
+            text-align: center;
+          }
+        }
+
+        &.arrow-hover {
+          a {
+            &:hover {
+              background: gcss-colors-element('primary', $theme, $variation: 'hover');
+
+              .icon {
+                color: gcss-colors-text('element-primary', $theme);
+              }
+            }
+
+            &:active {
+              background: gcss-colors-element('primary', $theme, $variation: 'active');
+
+              .icon {
+                color: gcss-colors-text('element-primary', $theme);
+              }
+            }
+          }
+        }
+
+        &.disabled {
+          a {
+            cursor: default;
+            background: gcss-colors-element('subdued', $theme) !important;
+          }
+        }
+      }
+
+      &.arrow-left,
+      &.arrow-right {
+        &.disabled {
+          a {
+            cursor: default;
+            background: transparent !important;
+
+            .icon {
+              color: gcss-colors-element('subdued', $theme) !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
