@@ -184,6 +184,6 @@
     "webpack-dev-server": "2.7.1",
     "webpack-hot-middleware": "2.18.2",
     "why-did-you-update": "0.0.8",
-    "yarn": "1.17.3"
+    "yarn": "1.22.0"
   }
 }
