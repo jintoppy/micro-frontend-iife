@@ -149,7 +149,7 @@
     "svg-url-loader": "1.1.1",
     "tempfile": "1.1.1",
     "text-zoom-event": "1.0.2",
-    "three": "0.98.0",
+    "three": "0.137.0",
     "twemoji": "2.5.0",
     "uglify-js": "3.1.2",
     "uglifyjs-webpack-plugin": "1.3.0",
